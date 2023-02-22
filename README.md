@@ -2,64 +2,82 @@
 
 - [Remix Docs](https://remix.run/docs)
 
-## Setup
+## Install Software
 
-- https://cloud.google.com/sdk/docs/install
-- https://www.pulumi.com/docs/get-started/install/
-- https://docs.volta.sh/guide/getting-started
+> _Note: This template assumes you are developing on MacOS._
+
+### Volta
+
+We use volta to manage and install node and yarn.
 
 ```sh
+curl https://get.volta.sh | bash
+```
+
+Read more at https://cloud.google.com/sdk/docs/install
+
+### Install Node and Yarn Classic
+
+```sh
+volta install node
+volta install yarn
+```
+
+### Install GCP Cli
+
+```sh
+brew install --cask google-cloud-sdk
+```
+
+Read more at https://cloud.google.com/sdk/docs/install
+
+### Install pulumi
+
+```sh
+brew install pulumi/tap/pulumi
+```
+
+https://www.pulumi.com/docs/get-started/install/
+
+## Bootstrap Project
+
+1. Create a GCP Project for the application
+1. Find and replace all instances of `remix-template` with the name of your project.
+1. Manually create a bucket for your pulumi state (`<project-name>-pulumi-state`)
+   - Single Region, standard class, no protection tools.
+1. Enable the "Identity Platform API"
+   - https://console.cloud.google.com/marketplace/details/google-cloud-platform/customer-identity
+1. Add an Email/Password provider without Passwordless login
+   - https://console.cloud.google.com/customer-identity/providers
+
+#### Setup gcloud and Pulumi.
+
+```sh
+gcloud config set project remix-template
 gcloud auth application-default login
 gcloud auth login
 gcloud auth configure-docker
-gcloud config set project basement-of-stinkology
-yarn pulumi login gs://bos-pulumi-state-bucket
+gcloud services enable cloudkms.googleapis.com run.googleapis.com sqladmin.googleapis.com sql-component.googleapis.com
+yarn pulumi login gs://<project-name>-pulumi-state
+yarn pulumi config set gcp:project remix-template
+gcloud kms keyrings create <project-name>-keyring --location us-central1
+gcloud kms keys create <project-name>-key --keyring <project-name>-keyring --location us-central1 --purpose "encryption"
+yarn pulumi stack init --secrets-provider="gcpkms://projects/<project-name>/locations/us-central1/keyRings/<project-name>-keyring/cryptoKeys/<project-name>-key"
 ```
 
 ## Development
 
+`
 Start the Remix development asset server and the Express server by running:
 
 ```sh
-npm run dev
+yarn dev
 ```
 
 This starts your app in development mode, which will purge the server require cache when Remix rebuilds assets so you don't need a process manager restarting the express server.
 
 ## Deployment
 
-First, build your app for production:
-
 ```sh
-npm run build
-```
-
-Then run the app in production mode:
-
-```sh
-npm start
-```
-
-Now you'll need to pick a host to deploy it to.
-
-### DIY
-
-If you're familiar with deploying express applications you should be right at home just make sure to deploy the output of `remix build`
-
-- `build/`
-- `public/build/`
-
-### Using a Template
-
-When you ran `npx create-remix@latest` there were a few choices for hosting. You can run that again to create a new project, then copy over your `app/` folder to the new project that's pre-configured for your target server.
-
-```sh
-cd ..
-# create a new project, and pick a pre-configured host
-npx create-remix@latest
-cd my-new-remix-app
-# remove the new project's app (not the old one!)
-rm -rf app
-# copy your app over
-cp -R ../my-old-remix-app/app app
+yarn deploy
 ```

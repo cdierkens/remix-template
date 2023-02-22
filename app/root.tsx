@@ -18,7 +18,7 @@ import styles from "./styles/app.css";
 
 export const meta: MetaFunction = () => ({
   charset: "utf-8",
-  title: "Basement of Stinkology",
+  title: "Remix Template",
   viewport: "width=device-width,initial-scale=1",
 });
 

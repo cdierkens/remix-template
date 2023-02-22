@@ -1,4 +1,4 @@
-import { P } from "~/components/typeography/p";
+import { P } from "~/components/typography/p";
 
 export function Footer() {
   return (

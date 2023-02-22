@@ -1,17 +1,14 @@
-secretsprovider: gcpkms://projects/basement-of-stinkology/locations/us-east5/keyRings/bos-key-ring/cryptoKeys/bos-key
-encryptedkey: CiQAXFLC2pKkcYMv/T/OCqUBjK1Ml0D5wPsGxB0oz8A1exOB53kSSQCSr65jT9LvlavVO/PR/3ura5+nkB1TQ0DKBsqJxynkWOTIylH8JlR7fWwo9hhs/FldGagSDgZGkGj8f/ME/s/E/fCvXEXmFZY=
+secretsprovider: gcpkms://projects/remix-template/locations/us-central1/keyRings/remix-template-keyring/cryptoKeys/remix-template-key
+encryptedkey: CiQAaryhKr3bweRjkgJjofnqJ2ZvXR38cPjMaSIG6iJ0EwfvDZkSSQCsUcM0WAyUU/7PFlVuSkeFd4R1Mjr4K1glO8cslmkARCvXzEzhzN3P3ZZsERxpqUG4yj9agjjkimgKmc6GRp64NRqjAMJ3NtY=
 config:
-  basement-of-stinkology:BOS_FIREBASE_API_KEY:
-    secure: v1:R/6IpKDDMSGkVPaE:zxqA0K9U742pBSMuXxGfqemMwfa+Q65jRhXLZQaK7+aZHOQ6Ip5ZnuYyKcdwO4RUsw91+LNLQw==
-  basement-of-stinkology:BOS_FIREBASE_AUTH_DOMAIN:
-    secure: v1:NSQeGfNRxTeAakH+:vWPug8PEbJeRM4SNXThvHEdu1Zly2vLkMWZ1E5I5wozNfsfL8LGSkQwk5UNcFCWqE8vZy0nb
-  basement-of-stinkology:BOS_POSTGRES_PASSWORD:
-    secure: v1:v/biIjdhN5DI7nWG:nkohIto5kjc5eS1c47kXyRFqH8PeVEmn3ydX7g==
-  basement-of-stinkology:BOS_POSTGRES_USER:
-    secure: v1:HLoJDKau3mET5wTi:cfZDIfKqtC0W+IUCftTvmdIxNuOZiuYY2T/pKQ53+PM7
-  basement-of-stinkology:BOS_SESSION_STORAGE_SECRET:
-    secure: v1:JGjKqeSuKyN8al/g:HKjVty5ouOuSyhgnidS9aCL68BiC8KVbI70=
-  basement-of-stinkology:BOS_THE_MOVIE_DB_API_KEY:
-    secure: v1:ahoR48/gVXmHLpTE:43sFOV2CM1QHhAco4+ZsXSxEHhhHbi65ka8r1VAdddJWliIdbcKu2/Wu7Zq+EXGL
-  gcp:project: basement-of-stinkology
-  gcp:region: us-central1
+  gcp:project: remix-template
+  remix-template:FIREBASE_API_KEY:
+    secure: v1:HZ8CD1DqcrmH6cSg:oWqrZvpLDH7YAPIxeu9WcULXocIXefufM7Kow2OMa0fdWEuLkH7XXrWh3/Xq1Zc1NRaMhSe4EA==
+  remix-template:FIREBASE_AUTH_DOMAIN:
+    secure: v1:dJOx1S0T2ILL+ftK:kg+qIstZ/blYEhIniNMQ4Eoi6u/gQUi/imEgZ894ArTsXcnnzLsk6TXznhAkRA==
+  remix-template:POSTGRES_PASSWORD:
+    secure: v1:pbs5UCWWMYLb4g+S:s9tI9v3ZwO8sMA1m/HPGYfSmFtoU/tAderdZ0Cp44aBtCQsCyMaHXL/ttyMq2Atw2toZwIWuPls=
+  remix-template:POSTGRES_USER:
+    secure: v1:5nsMvqPlalLawtih:FrPRdiF1KUrXI3/2SZo9tO1chXJM6DX3vZg=
+  remix-template:SESSION_STORAGE_SECRET:
+    secure: v1:UUmw9b0FixfpJ90A:RURxYL3GFdBpIbuoANHT+JPBdXh3HPoCVkFHyBMdPCqCMINFfWH1tLqTnai+xk1OJetXfQUDE6w=
