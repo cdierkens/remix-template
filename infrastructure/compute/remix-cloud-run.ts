@@ -3,11 +3,11 @@ import * as gcp from "@pulumi/gcp";
 import * as pulumi from "@pulumi/pulumi";
 import { enableCloudRun } from "../apis/enable-cloud-run";
 import {
-  bosPostgresDatabase,
-  bosPostgresInstance,
-  bosPostgresShadowDatabase,
-  bosPostgresUser,
-} from "../database/bos-postgresql";
+  postgresDatabase,
+  postgresInstance,
+  postgresShadowDatabase,
+  postgresUser,
+} from "../database/postgresql";
 
 if (!gcp.config.project) {
   throw new Error("Please set the project in the config.");
@@ -16,92 +16,85 @@ if (!gcp.config.project) {
 const location = gcp.config.region || "us-central1";
 
 const config = new pulumi.Config();
-const BOS_FIREBASE_API_KEY = config.getSecret("BOS_FIREBASE_API_KEY");
-const BOS_FIREBASE_AUTH_DOMAIN = config.getSecret("BOS_FIREBASE_AUTH_DOMAIN");
-const BOS_SESSION_STORAGE_SECRET = config.getSecret(
-  "BOS_SESSION_STORAGE_SECRET"
-);
-const BOS_THE_MOVIE_DB_API_KEY = config.getSecret("BOS_THE_MOVIE_DB_API_KEY");
 
-const BOS_POSTGRES_PASSWORD = config.getSecret("BOS_POSTGRES_PASSWORD");
-const BOS_POSTGRES_USER = config.getSecret("BOS_POSTGRES_USER");
+const FIREBASE_API_KEY = config.getSecret("FIREBASE_API_KEY");
+const FIREBASE_AUTH_DOMAIN = config.getSecret("FIREBASE_AUTH_DOMAIN");
+const SESSION_STORAGE_SECRET = config.getSecret("SESSION_STORAGE_SECRET");
+const POSTGRES_PASSWORD = config.getSecret("POSTGRES_PASSWORD");
+const POSTGRES_USER = config.getSecret("POSTGRES_USER");
 
-const BOS_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${BOS_POSTGRES_PASSWORD}@${bosPostgresInstance.publicIpAddress}:5432/${bosPostgresDatabase.name}?host=/cloudsql/${bosPostgresInstance.connectionName}`;
+const DATABASE_URL = pulumi.interpolate`postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${postgresInstance.publicIpAddress}:5432/${postgresDatabase.name}?host=/cloudsql/${postgresInstance.connectionName}`;
 
-const BOS_SHADOW_DATABASE_URL = pulumi.interpolate`postgresql://${BOS_POSTGRES_USER}:${BOS_POSTGRES_PASSWORD}@${bosPostgresInstance.publicIpAddress}:5432/${bosPostgresShadowDatabase.name}?host=/cloudsql/${bosPostgresInstance.connectionName}`;
+const SHADOW_DATABASE_URL = pulumi.interpolate`postgresql://${POSTGRES_USER}:${POSTGRES_PASSWORD}@${postgresInstance.publicIpAddress}:5432/${postgresShadowDatabase.name}?host=/cloudsql/${postgresInstance.connectionName}`;
 
-const remixImage = new docker.Image("bos-remix-image", {
-  imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/bos-remix`,
+const remixImage = new docker.Image("remix-image", {
+  imageName: pulumi.interpolate`gcr.io/${gcp.config.project}/remix`,
   build: {
     context: "../",
     extraOptions: ["--platform", "linux/amd64"],
   },
 });
 
-export const bos_remix_service_account = new gcp.serviceaccount.Account(
-  "bos-remix-service-account",
+export const remix_service_account = new gcp.serviceaccount.Account(
+  "remix-service-account",
   {
     accountId: `remix-service-account`,
-    displayName: "BOS Remix Service Account",
+    displayName: "Remix Service Account",
   }
 );
 
 const serviceAccountUserBinding = new gcp.serviceaccount.IAMBinding(
-  "bos-service-account-user-role",
+  "service-account-user-role",
   {
-    serviceAccountId: bos_remix_service_account.name,
+    serviceAccountId: remix_service_account.name,
     role: "roles/iam.serviceAccountUser",
     members: ["allUsers"],
   }
 );
 
 const serviceAccountSqlClientIAMBinding = new gcp.projects.IAMBinding(
-  `bos-cloudsql-client-role`,
+  `cloudsql-client-role`,
   {
     project: gcp.config.project,
     role: "roles/cloudsql.client",
     members: [
-      pulumi.interpolate`serviceAccount:${bos_remix_service_account.email}`,
+      pulumi.interpolate`serviceAccount:${remix_service_account.email}`,
     ],
   }
 );
 
 export const remixService = new gcp.cloudrun.Service(
-  "bos-remix-service",
+  "remix-service",
   {
     location,
     // https://github.com/hashicorp/terraform-provider-google/issues/5898
     autogenerateRevisionName: true,
     template: {
       spec: {
-        serviceAccountName: bos_remix_service_account.email,
+        serviceAccountName: remix_service_account.email,
         containers: [
           {
             image: remixImage.imageName,
             envs: [
               {
-                name: "BOS_FIREBASE_API_KEY",
-                value: BOS_FIREBASE_API_KEY,
+                name: "FIREBASE_API_KEY",
+                value: FIREBASE_API_KEY,
               },
               {
-                name: "BOS_FIREBASE_AUTH_DOMAIN",
-                value: BOS_FIREBASE_AUTH_DOMAIN,
+                name: "FIREBASE_AUTH_DOMAIN",
+                value: FIREBASE_AUTH_DOMAIN,
               },
               {
-                name: "BOS_SESSION_STORAGE_SECRET",
-                value: BOS_SESSION_STORAGE_SECRET,
+                name: "SESSION_STORAGE_SECRET",
+                value: SESSION_STORAGE_SECRET,
               },
               {
-                name: "BOS_DATABASE_URL",
-                value: BOS_DATABASE_URL,
+                name: "DATABASE_URL",
+                value: DATABASE_URL,
               },
               {
-                name: "BOS_SHADOW_DATABASE_URL",
-                value: BOS_SHADOW_DATABASE_URL,
-              },
-              {
-                name: "BOS_THE_MOVIE_DB_API_KEY",
-                value: BOS_THE_MOVIE_DB_API_KEY,
+                name: "SHADOW_DATABASE_URL",
+                value: SHADOW_DATABASE_URL,
               },
             ],
           },
@@ -110,7 +103,7 @@ export const remixService = new gcp.cloudrun.Service(
       metadata: {
         annotations: {
           "run.googleapis.com/cloudsql-instances":
-            bosPostgresInstance.connectionName,
+            postgresInstance.connectionName,
         },
       },
     },
@@ -119,27 +112,16 @@ export const remixService = new gcp.cloudrun.Service(
     dependsOn: [
       enableCloudRun,
       serviceAccountUserBinding,
-      bosPostgresDatabase,
-      bosPostgresUser,
+      postgresDatabase,
+      postgresUser,
       serviceAccountSqlClientIAMBinding,
     ],
   }
 );
 
-new gcp.cloudrun.IamMember("bos-remix-service-iam-member", {
+new gcp.cloudrun.IamMember("remix-service-iam-member", {
   service: remixService.name,
   location,
   role: "roles/run.invoker",
   member: "allUsers",
-});
-
-new gcp.cloudrun.DomainMapping("box-remix-domain-mapping", {
-  location,
-  name: "basementofstinkology.app",
-  metadata: {
-    namespace: gcp.config.project,
-  },
-  spec: {
-    routeName: remixService.name,
-  },
 });

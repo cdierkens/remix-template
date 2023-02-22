@@ -1,6 +1,6 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { H1 } from "~/components/typeography/h1";
+import { H1 } from "~/components/typography/h1";
 import { getRedirectURL } from "~/features/auth";
 import { authenticator } from "~/services/auth.server";
 

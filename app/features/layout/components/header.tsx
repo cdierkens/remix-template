@@ -47,7 +47,7 @@ export function Header({ user, children }: PropsWithChildren<HeaderProps>) {
 
           <div className="flex-1">
             <a href="/" className="btn btn-link">
-              Basement of Stinkology
+              Remix Template
             </a>
           </div>
 
@@ -55,12 +55,6 @@ export function Header({ user, children }: PropsWithChildren<HeaderProps>) {
             <ul className="menu menu-horizontal">
               {user && (
                 <>
-                  <li>
-                    <Link to="/movies">Movies</Link>
-                  </li>
-                  <li>
-                    <Link to="/events">Events</Link>
-                  </li>
                   <li>
                     <Link to="/profiles/me">{user.email}</Link>
                   </li>
@@ -89,16 +83,6 @@ export function Header({ user, children }: PropsWithChildren<HeaderProps>) {
               <li>
                 <Link onClick={closeDrawer} to="/profile">
                   {user.email}
-                </Link>
-              </li>
-              <li>
-                <Link onClick={closeDrawer} to="/movies">
-                  Movies
-                </Link>
-              </li>
-              <li>
-                <Link onClick={closeDrawer} to="/events">
-                  Events
                 </Link>
               </li>
               <li>

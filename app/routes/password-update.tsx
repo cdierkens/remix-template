@@ -8,7 +8,7 @@ import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
 import { SubmitButton } from "~/components/submit-button";
 import { TextField } from "~/components/text-field";
-import { P } from "~/components/typeography/p";
+import { P } from "~/components/typography/p";
 import {
   AuthCard,
   AuthCardActions,
