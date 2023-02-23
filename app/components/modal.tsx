@@ -35,7 +35,7 @@ export function Modal({
           })}
           {...underlayProps}
         >
-          <div {...modalProps} ref={ref} className="modal-box">
+          <div role="dialog" {...modalProps} ref={ref} className="modal-box">
             {children}
           </div>
         </div>
