@@ -29,6 +29,7 @@ export function Header({ user, children }: PropsWithChildren<HeaderProps>) {
         <nav className="navbar w-full bg-base-100 border-b-base-200 shadow-md">
           <div className="flex-none lg:hidden">
             <label htmlFor={id} className="btn btn-square btn-ghost">
+              <span className="sr-only">Toggle side drawer</span>
               <svg
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"

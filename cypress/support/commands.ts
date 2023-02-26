@@ -27,13 +27,29 @@ import "@testing-library/cypress/add-commands";
 // -- This will overwrite an existing command --
 // Cypress.Commands.overwrite('visit', (originalFn, url, options) => { ... })
 //
-// declare global {
-//   namespace Cypress {
-//     interface Chainable {
-//       login(email: string, password: string): Chainable<void>
-//       drag(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       dismiss(subject: string, options?: Partial<TypeOptions>): Chainable<Element>
-//       visit(originalFn: CommandOriginalFn, url: string, options: Partial<VisitOptions>): Chainable<Element>
-//     }
-//   }
-// }
+
+interface SignInOptions {
+  email: string;
+  password: string;
+}
+
+Cypress.Commands.add("signIn", ({ email, password }: SignInOptions) => {
+  cy.session([email, password], () => {
+    cy.visit("/sign-in");
+
+    cy.findByLabelText("Email").type(email);
+    cy.findByLabelText("Password").type(password);
+    cy.findByRole("button", { name: "Sign In" }).click();
+
+    cy.url().should("eq", `${Cypress.config("baseUrl")}/`);
+  });
+});
+
+declare global {
+  // eslint-disable-next-line @typescript-eslint/no-namespace
+  namespace Cypress {
+    interface Chainable {
+      signIn(options: SignInOptions): Chainable<void>;
+    }
+  }
+}

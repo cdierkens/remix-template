@@ -1,22 +1,29 @@
 import { RemixBrowser } from "@remix-run/react";
-import { startTransition } from "react";
+import { startTransition, StrictMode } from "react";
+import { hydrate } from "react-dom";
 import { hydrateRoot } from "react-dom/client";
 
-function hydrate() {
+function startHydration() {
   startTransition(() => {
-    hydrateRoot(
-      document,
-      // <StrictMode>
-      <RemixBrowser />
-      // </StrictMode>
-    );
+    console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+
+    if (process.env.NODE_ENV === "test") {
+      hydrate(<RemixBrowser />, document);
+    } else {
+      hydrateRoot(
+        document,
+        <StrictMode>
+          <RemixBrowser />
+        </StrictMode>
+      );
+    }
   });
 }
 
 if (typeof requestIdleCallback === "function") {
-  requestIdleCallback(hydrate);
+  requestIdleCallback(startHydration);
 } else {
   // Safari doesn't support requestIdleCallback
   // https://caniuse.com/requestidlecallback
-  setTimeout(hydrate, 1);
+  setTimeout(startHydration, 1);
 }

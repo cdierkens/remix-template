@@ -1,0 +1,14 @@
+{
+  "include": ["**/*.ts", "../support/commands.ts"],
+  "compilerOptions": {
+    "lib": ["DOM", "DOM.Iterable", "ES2019"],
+    "esModuleInterop": true,
+    "moduleResolution": "node",
+    "target": "ES2019",
+    "strict": true,
+    "forceConsistentCasingInFileNames": true,
+    "baseUrl": ".",
+    "types": ["cypress", "@testing-library/cypress"],
+    "noEmit": true
+  }
+}
