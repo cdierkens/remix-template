@@ -1,8 +1,8 @@
-import { H1 } from "./h1.component";
+import { H6 } from "./h6.component";
 
-describe("<H1 />", () => {
+describe("<H6 />", () => {
   it("renders it's children", () => {
-    cy.mount(<H1>Hello World</H1>);
+    cy.mount(<H6>Hello World</H6>);
 
     cy.findByRole("heading", { name: "Hello World" }).should("be.visible");
   });

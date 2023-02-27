@@ -4,13 +4,16 @@ import type { PropsWithChildren } from "react";
 import React, { useId } from "react";
 import type { AriaModalOverlayProps } from "react-aria";
 import { FocusScope, Overlay, useModalOverlay } from "react-aria";
+import { Dialog } from "./dialog.component";
 
-interface ModalProps extends AriaModalOverlayProps {
+export interface ModalProps extends AriaModalOverlayProps {
+  title: string;
   state: OverlayTriggerState;
 }
 
 export function Modal({
   state,
+  title,
   children,
   ...props
 }: PropsWithChildren<ModalProps>) {
@@ -35,8 +38,8 @@ export function Modal({
           })}
           {...underlayProps}
         >
-          <div role="dialog" {...modalProps} ref={ref} className="modal-box">
-            {children}
+          <div {...modalProps} ref={ref} className="modal-box">
+            <Dialog title={title}>{children}</Dialog>
           </div>
         </div>
       </FocusScope>

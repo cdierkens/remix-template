@@ -12,7 +12,11 @@
     "allowJs": true,
     "forceConsistentCasingInFileNames": true,
     "baseUrl": ".",
-    "types": ["cypress", "@testing-library/cypress"],
+    "types": [
+      "cypress",
+      "@testing-library/cypress",
+      "@testing-library/jest-dom"
+    ],
     "paths": {
       "~/*": ["./app/*"]
     },
