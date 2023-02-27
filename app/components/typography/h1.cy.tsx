@@ -1,4 +1,4 @@
-import { H1 } from "./h1";
+import { H1 } from "./h1.component";
 
 describe("<H1 />", () => {
   it("renders", () => {

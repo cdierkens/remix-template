@@ -1,4 +1,4 @@
-import { Modal } from "./modal";
+import { Modal } from "./modal.component";
 
 describe("<Modal />", () => {
   it("renders", () => {

@@ -3,17 +3,17 @@ import { Link, useCatch, useTransition } from "@remix-run/react";
 import { withZod } from "@remix-validated-form/with-zod";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
-import { SubmitButton } from "~/components/submit-button";
-import { TextField } from "~/components/text-field";
-import { P } from "~/components/typography/p";
+import { SubmitButton } from "~/components/submit-button.component";
+import { TextField } from "~/components/text-field.component";
+import { P } from "~/components/typography/p.component";
 import {
   AuthCard,
   AuthCardActions,
   AuthCardBody,
   AuthCardLinks,
   AuthCardTitle,
+  authenticator,
 } from "~/features/auth";
-import { authenticator } from "~/services/auth.server";
 
 const validator = withZod(
   z.object({

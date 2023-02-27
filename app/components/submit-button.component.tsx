@@ -1,7 +1,7 @@
 import clsx from "clsx";
 import type { PropsWithChildren } from "react";
-import type { ButtonProps } from "./button";
-import { Button } from "./button";
+import type { ButtonProps } from "./button.component";
+import { Button } from "./button.component";
 
 interface SubmitButtonProps extends ButtonProps {
   isLoading?: boolean;

@@ -3,11 +3,10 @@ import { FirebaseError } from "firebase/app";
 import { signInWithEmailAndPassword } from "firebase/auth";
 import { Authenticator } from "remix-auth";
 import { FormStrategy } from "remix-auth-form";
-import { auth } from "~/lib/firebase";
-import { getErrorMessage } from "~/lib/firebase-errors";
-import { prisma } from "~/services/prisma.server";
-import { sessionStorage } from "~/services/session.server";
-import { invariant } from "~/utils/invariant";
+import { auth, getErrorMessage } from "~/features/auth";
+import { invariant } from "~/utils/invariant.util";
+import { sessionStorage } from "../utils/session.util.server";
+import { prisma } from "./prisma.lib.server";
 
 export const authenticator = new Authenticator<User>(sessionStorage);
 

@@ -5,9 +5,10 @@ import { withZod } from "@remix-validated-form/with-zod";
 import { createUserWithEmailAndPassword } from "firebase/auth";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
-import { SubmitButton } from "~/components/submit-button";
-import { TextField } from "~/components/text-field";
+import { SubmitButton } from "~/components/submit-button.component";
+import { TextField } from "~/components/text-field.component";
 import {
+  auth,
   AuthCard,
   AuthCardActions,
   AuthCardBody,
@@ -15,7 +16,6 @@ import {
   AuthCardTitle,
   getRedirectURL,
 } from "~/features/auth";
-import { auth } from "~/lib/firebase";
 
 const validator = withZod(
   z.object({

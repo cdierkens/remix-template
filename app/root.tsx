@@ -12,8 +12,8 @@ import {
 } from "@remix-run/react";
 import clsx from "clsx";
 import { SSRProvider } from "react-aria";
+import { authenticator } from "./features/auth/lib/authenticator.lib.server";
 import { Header } from "./features/layout";
-import { authenticator } from "./services/auth.server";
 import styles from "./styles/app.css";
 
 export const meta: MetaFunction = () => ({

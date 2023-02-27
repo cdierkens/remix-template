@@ -1,5 +1,5 @@
 import { createCookieSessionStorage } from "@remix-run/node";
-import { invariant } from "~/utils/invariant";
+import { invariant } from "~/utils/invariant.util";
 
 invariant(
   process.env.SESSION_STORAGE_SECRET,

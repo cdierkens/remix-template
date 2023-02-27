@@ -1,4 +1,4 @@
-import { H1 } from "~/components/typography/h1";
+import { H1 } from "~/components/typography/h1.component";
 
 export default function Index() {
   return (

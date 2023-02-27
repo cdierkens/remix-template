@@ -1,8 +1,7 @@
 import type { LoaderArgs } from "@remix-run/node";
 import { useLoaderData } from "@remix-run/react";
-import { H1 } from "~/components/typography/h1";
-import { getRedirectURL } from "~/features/auth";
-import { authenticator } from "~/services/auth.server";
+import { H1 } from "~/components/typography/h1.component";
+import { authenticator, getRedirectURL } from "~/features/auth";
 
 export async function loader({ request }: LoaderArgs) {
   const user = await authenticator.isAuthenticated(request, {

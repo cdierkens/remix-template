@@ -1,6 +1,6 @@
 import { initializeApp } from "firebase/app";
 import { getAuth } from "firebase/auth";
-import { invariant } from "~/utils/invariant";
+import { invariant } from "~/utils/invariant.util";
 
 invariant(process.env.FIREBASE_API_KEY, "SESSION_STORAGE_SECRET should be set");
 

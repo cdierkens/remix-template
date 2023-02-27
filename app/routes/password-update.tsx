@@ -6,18 +6,18 @@ import { FirebaseError } from "firebase/app";
 import { confirmPasswordReset } from "firebase/auth";
 import { ValidatedForm, validationError } from "remix-validated-form";
 import { z } from "zod";
-import { SubmitButton } from "~/components/submit-button";
-import { TextField } from "~/components/text-field";
-import { P } from "~/components/typography/p";
+import { SubmitButton } from "~/components/submit-button.component";
+import { TextField } from "~/components/text-field.component";
+import { P } from "~/components/typography/p.component";
 import {
+  auth,
   AuthCard,
   AuthCardActions,
   AuthCardBody,
   AuthCardTitle,
+  getErrorMessage,
   getRedirectURL,
 } from "~/features/auth";
-import { auth } from "~/lib/firebase";
-import { getErrorMessage } from "~/lib/firebase-errors";
 
 const validator = withZod(
   z.object({

@@ -3,9 +3,9 @@ import React from "react";
 import type { AriaTextFieldOptions } from "react-aria";
 import { useTextField } from "react-aria";
 import { useField } from "remix-validated-form";
-import { FormControl } from "./form-control";
-import { Input } from "./input";
-import { Label } from "./label";
+import { FormControl } from "./form-control.component";
+import { Input } from "./input.component";
+import { Label } from "./label.component";
 
 type TextFieldProps = Omit<AriaTextFieldOptions<"input">, "name" | "label"> &
   Required<Pick<AriaTextFieldOptions<"input">, "name" | "label">>;
